@@ -1,8 +1,8 @@
 """ Reading and comparing datalad studyspec files """
 
+import argparse
 import json
 from pathlib import Path
-# from pprint import pprint
 # import re
 
 from deepdiff import DeepDiff
@@ -81,6 +81,23 @@ def compare_specs(spec_file1: str, spec_file2: str):
         _display_changes(value)
 
 
+def _argument_parsing():
+    """Parsing command line arguments.
+    """
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "spec_file",
+        nargs=2,
+        help="Path to datalad studyspec file to compare"
+    )
+
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
-    compare_specs("../ds_before/sourcedata/studyspec.json",
-                 "../ds_after/sourcedata/studyspec.json")
+
+    args = _argument_parsing()
+    compare_specs(args.spec_file[0],
+                  args.spec_file[1])
